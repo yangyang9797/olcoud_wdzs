@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ocloud.qjwdzs.catalog.QjwdzsCatalogMapper">
+    <resultMap id="map" type="java.util.LinkedHashMap"/>
+    <resultMap id="role" type="com.ocloud.auth.role.Role"/>
+
+<!--    查询用户拥有的角色,行政区除外-->
+    <select id="getRolesByUid" resultMap="role">
+        select DISTINCT *
+        from AUTH_USER u,AUTH_ROLE r,AUTH_USER_ROLE ur
+        where ur.userid = u.USERID and ur.roleid = r.roleid
+        AND u.USERID = #{uid}
+        and r.roletype != 'xzq'
+        and r.roletype != 'sys'
+    </select>
+    <!--    查询所有角色-->
+    <select id="getAllRoles" resultMap="role">
+        select *
+        from AUTH_ROLE r
+    </select>
+    <!--    查询用户所属公司-->
+    <select id="getCompany" resultMap="role">
+        select *
+        from AUTH_ROLE r
+        where levels  = #{level}
+    </select>
+
+</mapper>

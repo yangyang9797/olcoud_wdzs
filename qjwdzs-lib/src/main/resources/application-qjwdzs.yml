@@ -1,0 +1,11 @@
+spring:
+  # Api文档
+  swagger:
+    groups:
+      qjwdzs:
+        title: 权籍外调助手开发文档
+        version: v2.0
+        basePackage: com.ocloud.qjwdzs
+        description: 权籍外调助手项目模块开发。
+        contact:
+          name: 光谷信息-空间信息

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ocloud.qjwdzs</groupId>
+    <artifactId>ocloud-qjwdzs-lib</artifactId>
+    <version>0.0.2-SNAPSHOT</version>
+
+    <name>ocloud-qjwdzs-lib</name>
+    <description>权籍外调助手</description>
+
+
+    <parent>
+        <groupId>com.ocloud.qjwdzs</groupId>
+        <artifactId>ocloud-qjwdzs</artifactId>
+        <version>0.0.2-SNAPSHOT</version>
+    </parent>
+    <dependencies>
+        <dependency>
+            <groupId>com.ocloud.lib</groupId>
+            <artifactId>ocloud-lib-web</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.1.wso2v1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- 权限认证 -->
+        <dependency>
+            <groupId>com.ocloud.auth</groupId>
+            <artifactId>ocloud-auth-lib</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+        <!-- 文件上传 -->
+        <dependency>
+            <groupId>com.ocloud.file</groupId>
+            <artifactId>ocloud-file-lib</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jfinal</groupId>
+            <artifactId>jfinal</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <!-- Postgresql 数据驱动 -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4.1212</version>
+        </dependency>
+
+    </dependencies>
+</project>

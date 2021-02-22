@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    include: db,com,file,auth,qjwdzs,boot
+
+ovit:
+  com:
+    file:
+      # 项目附件压缩包路径地址
+      preject-zip-path: C:\Users\14530\Desktop\project\
+      # 项目附件地址
+      files-path: C:\Users\14530\Desktop\upload\
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ocloud.qjwdzs.instance.QjwdzsInstanceMapper">
+    <resultMap id="map" type="java.util.LinkedHashMap"/>
+    <!-- 关联查询基本信息和目录 -->
+    <select id="pageWithCatalog" resultMap="map">
+
+        select ${ew.sqlSelect} from (
+            select v.* ,c.qclname,c.seqno qclseqno
+            from qjwdzs_instance v
+            left join qjwdzs_catalog c on c.qclid = v.qclid
+            where v.isdel='0'
+        )as a
+        ${ew.customSqlSegment}
+    </select>
+
+    <!--        根据项目编号获取短信用户名密码和签名-->
+    <select id="getYumByQjinid" resultMap="map">
+        select username, passwd ,signno from qjwdzs_yms
+        where ymspid in (
+        select roleid from auth_role
+        where roleid in (select roleid
+        from auth_user_role where userid =
+        (select cuserid from qjwdzs_instance where qjinid = #{qjinid}))
+        and roletype = 'org')
+    </select>
+
+</mapper>

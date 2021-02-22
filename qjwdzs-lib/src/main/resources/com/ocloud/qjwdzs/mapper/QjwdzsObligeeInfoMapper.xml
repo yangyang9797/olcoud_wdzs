@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ocloud.qjwdzs.obligee.QjwdzsObligeeInfoMapper">
+    <resultMap id="map" type="java.util.LinkedHashMap"/>
+
+    <!--    全局模糊查询-->
+    <select id="selectByName" resultMap="map">
+        select *
+        from QJWDZS_OBLIGEE qo left join QJWDZS_HOMESTEAD qh
+        on qo.qlrid = qh.qlrid
+        where ZZQLR like '%' || #{zzqlr} || '%'
+        and qo.qlrpid is null
+        and qo.zjh is not null
+        AND qo.isdel = '0'
+        and qo.cuserid = #{cuserid}
+        ORDER BY qo.ctime DESC
+    </select>
+
+    <!--    查询今天录入的信息-->
+    <select id="todayInfo" resultMap="map">
+        SELECT *
+        from QJWDZS_OBLIGEE qo left join QJWDZS_HOMESTEAD qh
+        on qo.qlrid = qh.qlrid
+        WHERE qo.createtime between to_date(#{update},'yyyy-MM-dd')
+        and to_date(#{downdate},'yyyy-MM-dd')
+        and qo.qlrpid is null
+        and qo.zjh is not null
+        AND qo.isdel = '0'
+        and qo.cuserid = #{cuserid}
+        ORDER BY qo.ctime DESC
+    </select>
+
+    <!--    查询资料欠缺的信息-->
+    <select id="lackInfo" resultMap="map">
+        SELECT *
+        from  QJWDZS_OBLIGEE qo left join QJWDZS_HOMESTEAD qh
+        on qo.qlrid = qh.qlrid
+        WHERE qo.dczt = 'zldb'
+        and qo.qlrpid is null
+        and qo.zjh is not null
+        AND qo.isdel = '0'
+        and qo.cuserid = #{cuserid}
+        ORDER BY qo.ctime DESC
+    </select>
+
+    <!--    查询所有信息-->
+    <select id="getAllInfo" resultMap="map">
+        SELECT *
+        from  QJWDZS_OBLIGEE qo left join QJWDZS_HOMESTEAD qh
+        on qo.qlrid = qh.qlrid
+        WHERE qo.qlrpid is null
+        and qo.zjh is not null
+        AND qo.isdel = '0'
+        and qo.cuserid = #{cuserid}
+        ORDER BY qo.ctime DESC
+    </select>
+
+    <!--    检查资料是否缺失-->
+    <select id="checkFile" resultType="map">
+        SELECT
+            sum( CASE WHEN ( fi.reftype = '户口本' ) THEN 1 ELSE 0 END ) AS hkb,
+            sum( CASE WHEN ( fi.reftype = '身份证' ) THEN 1 ELSE 0 END ) AS sfz,
+            sum( CASE WHEN ( fi.reftype = '土地证' ) THEN 1 ELSE 0 END ) AS tdz,
+            sum( CASE WHEN ( fi.reftype = '房产证' ) THEN 1 ELSE 0 END ) AS fcz,
+            sum( CASE WHEN ( fi.reftype = '房屋远景' ) THEN 1 ELSE 0 END ) AS fwyj,
+            sum( CASE WHEN ( fi.reftype = '调查草图' ) THEN 1 ELSE 0 END ) AS dcct,
+            sum( CASE WHEN ( fi.reftype = '调查表格' ) THEN 1 ELSE 0 END ) AS dcbg,
+            sum( CASE WHEN ( fi.reftype = '门牌号' ) THEN 1 ELSE 0 END ) AS mph
+        FROM FILE_INFO fi 
+        WHERE fi.REFID = #{qlrid}
+
+    </select>
+
+    <!--    更新调查状态-->
+    <update id="setDCZT">
+        update QJWDZS_OBLIGEE
+        set dczt = #{dczt}
+        where qlrid = #{qlrid}
+    </update>
+
+    <!--    权利人的相关人员-->
+    <select id="selectOthersByQLRId" resultMap="map">
+        SELECT *
+        FROM QJWDZS_OBLIGEE qo
+        WHERE qo.QLRPID = #{qlrid}
+        AND qo.isdel = '0'
+    </select>
+
+    <!--    查询项目下的权利人并统计照片-->
+    <select id="selectByQjinid" resultMap="map">
+        SELECT
+            qo.QLRID,
+            qo.ZZQLR,
+            qo.DHHM,
+            qo.DLR,
+            qo.YDLRGX,
+            qo.DLRZJH,
+            sum( CASE WHEN ( fi.reftype = '户口本' ) THEN 1 ELSE 0 END ) AS hkb,
+            sum( CASE WHEN ( fi.reftype = '身份证' ) THEN 1 ELSE 0 END ) AS sfz,
+            sum( CASE WHEN ( fi.reftype = '土地证' ) THEN 1 ELSE 0 END ) AS tdz,
+            sum( CASE WHEN ( fi.reftype = '房产证' ) THEN 1 ELSE 0 END ) AS fcz,
+            sum( CASE WHEN ( fi.reftype = '房屋远景' ) THEN 1 ELSE 0 END ) AS fwyj,
+            sum( CASE WHEN ( fi.reftype = '调查草图' ) THEN 1 ELSE 0 END ) AS dcct,
+            sum( CASE WHEN ( fi.reftype = '调查表格' ) THEN 1 ELSE 0 END ) AS dcbg,
+            sum( CASE WHEN ( fi.reftype = '门牌号' ) THEN 1 ELSE 0 END ) AS mph,
+            sum( CASE WHEN ( fi.reftype = '其他' ) THEN 1 ELSE 0 END ) AS qt
+        FROM
+            QJWDZS_OBLIGEE qo
+            RIGHT JOIN file_info fi ON fi.refid = qo.qlrid
+            AND qo.qjinid = #{qjinid}
+        GROUP BY
+            qo.QLRID,
+            qo.ZZQLR,
+            qo.DHHM,
+            qo.DLR,
+            qo.YDLRGX,
+            qo.DLRZJH
+    </select>
+
+    <!-- 关联查询填报信息 -->
+    <select id="findFileInfoByPId" resultMap="map">
+        select * from file_info fi
+        left join qjwdzs_obligee qo on  fi.refid = qo.qlrid
+        where refid in(
+            select qlrid from qjwdzs_obligee where qjinid = #{qjinid}
+        )
+    </select>
+
+    <delete id="deleteNullData">
+        DELETE FROM qjwdzs_obligee WHERE zjh is null
+    </delete>
+
+</mapper>

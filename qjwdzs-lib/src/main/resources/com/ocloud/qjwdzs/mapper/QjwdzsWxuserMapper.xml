@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocloud.qjwdzs.wxuser.QjwdzsWxuserMapper">
+
+  <!--  查询微信绑定的用户-->
+    <select id="selectUserByOpenid" resultType="com.ocloud.auth.user.User">
+      select *
+      from auth_user
+      where userid =  (select userId from qjwdzs_wxuser where provideruserid = #{openid})
+    </select>
+
+</mapper>
