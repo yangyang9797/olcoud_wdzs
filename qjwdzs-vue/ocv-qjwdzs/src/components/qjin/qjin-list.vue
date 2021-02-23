@@ -171,8 +171,7 @@
         },
         methods: {
             onSaveProject(){
-
-                this.loadData()
+                this.$parent.$parent.$parent.$refs.leftTree.loadData()
             },
             loadData(opt) {
                 if (opt.qclid){
