@@ -168,10 +168,9 @@
         methods: {
             // 加载数据
             loadData() {
-                debugger
                 ApiQjydcCatalog.treeWithInstances({
                     search: this.search_value,
-                    cuserid:this.$store.state.auth.user.userid
+                    // cuserid:this.$store.state.auth.user.userid
             })
                     .then(r => {
                         this.setTreeData(r.data.data);

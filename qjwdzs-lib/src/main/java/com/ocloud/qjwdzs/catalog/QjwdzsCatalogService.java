@@ -43,54 +43,54 @@ public class QjwdzsCatalogService extends BaseTreeService<QjwdzsCatalogMapper, Q
     }
 
     public List<Map<String, Object>> treeWithInstances(QjwdzsCatalog t, AiPage page) {
-        // 组织架构数据权限查询
-        String cuserid = t.getCuserid();
-        List<Role> roles = (List<Role>) getTopRolesAndCompany(cuserid).get("topRoles");
-        // 查询所有用户(去除同级用户)
-        List<Map<String, Object>> maps = Lists.newArrayList();
-        for (int i = 0;i<roles.size();i++){
-            // 获取最高一级的架构roleid
-            String roleid = roles.get(i).getRoleid();
-            // 最高的rolecode
-            String rolecode = roles.get(i).getRolecode();
-            // 通过roleid查询用户
-            Role role = new Role();
-            role.setRoleid(roleid);
-            // 查询所有用户(去除同级用户)
-            maps.addAll(roleService.listWithUsers(role, "", "", "").stream().filter(m -> !rolecode.equals(m.get("rolecode").toString())).collect(Collectors.toList()));
-        }
-        // 所有下级用户
-        List<String> userList = Lists.newArrayList();
-        // 添加自己
-        userList.add(cuserid);
-        maps.forEach(map -> {
-            List<Map<Object, Object>> children = MapUtil.fromObjects(map.get("children"));
-            for (Map<Object, Object> child : children) {
-                userList.add(child.get("userid").toString());
-            }
-        });
-        // 相同用户去重
-        List<String> list = new ArrayList<>(new TreeSet<>(userList));
-        // 所有目录
-        List<Map<String, Object>> catalogList = Lists.newArrayList();
-        // 所有项目
-        List<Map<String, Object>> items = Lists.newArrayList();
-        QjwdzsInstance QjwdzsInstance = new QjwdzsInstance();
-        for (String userid : list) {
-            t.setCuserid(userid);
-            catalogList.addAll(listMaps(t, page));
-            QjwdzsInstance.setCuserid(userid);
-            items.addAll(instanceService.listMaps(QjwdzsInstance, page));
-        }
-
-        // 关联树(目录+项目)
-        List<Map<String, Object>> tree = treeWithRefs(catalogList, items);
-        // 最终结果
-        List<Map<String, Object>> res = treeOrderBySeq(tree, instanceService);
-
-        System.out.println("最终结果:" + JSON.toJSONString(res));
-        return res;
-//        return treeWithRefs(t, instanceService, page);
+//        // 组织架构数据权限查询
+//        String cuserid = t.getCuserid();
+//        List<Role> roles = (List<Role>) getTopRolesAndCompany(cuserid).get("topRoles");
+//        // 查询所有用户(去除同级用户)
+//        List<Map<String, Object>> maps = Lists.newArrayList();
+//        for (int i = 0;i<roles.size();i++){
+//            // 获取最高一级的架构roleid
+//            String roleid = roles.get(i).getRoleid();
+//            // 最高的rolecode
+//            String rolecode = roles.get(i).getRolecode();
+//            // 通过roleid查询用户
+//            Role role = new Role();
+//            role.setRoleid(roleid);
+//            // 查询所有用户(去除同级用户)
+//            maps.addAll(roleService.listWithUsers(role, "", "", "").stream().filter(m -> !rolecode.equals(m.get("rolecode").toString())).collect(Collectors.toList()));
+//        }
+//        // 所有下级用户
+//        List<String> userList = Lists.newArrayList();
+//        // 添加自己
+//        userList.add(cuserid);
+//        maps.forEach(map -> {
+//            List<Map<Object, Object>> children = MapUtil.fromObjects(map.get("children"));
+//            for (Map<Object, Object> child : children) {
+//                userList.add(child.get("userid").toString());
+//            }
+//        });
+//        // 相同用户去重
+//        List<String> list = new ArrayList<>(new TreeSet<>(userList));
+//        // 所有目录
+//        List<Map<String, Object>> catalogList = Lists.newArrayList();
+//        // 所有项目
+//        List<Map<String, Object>> items = Lists.newArrayList();
+//        QjwdzsInstance QjwdzsInstance = new QjwdzsInstance();
+//        for (String userid : list) {
+//            t.setCuserid(userid);
+//            catalogList.addAll(listMaps(t, page));
+//            QjwdzsInstance.setCuserid(userid);
+//            items.addAll(instanceService.listMaps(QjwdzsInstance, page));
+//        }
+//
+//        // 关联树(目录+项目)
+//        List<Map<String, Object>> tree = treeWithRefs(catalogList, items);
+//        // 最终结果
+//        List<Map<String, Object>> res = treeOrderBySeq(tree, instanceService);
+//
+//        System.out.println("最终结果:" + JSON.toJSONString(res));
+//        return res;
+        return treeWithRefs(t, instanceService, page);
     }
 
     public IPage<Map<String, Object>> pageInstancesByTree(com.ocloud.qjwdzs.catalog.QjwdzsCatalog t, AiPage page) {
@@ -142,16 +142,6 @@ public class QjwdzsCatalogService extends BaseTreeService<QjwdzsCatalogMapper, Q
         roles.retainAll(allRole);
         Map map = Maps.newHashMap();
         map.put("topRoles", roles);
-//        String level = null;
-//       // levels为 “1”、“2”...的情况
-//        if (roles.get(0).getLevels().indexOf(".") == -1) {
-//            level = roles.get(0).getLevels();
-//        } else {
-//            //levels为 “1.2”、“1.1.2”的情况
-//            level = roles.get(0).getLevels().substring(0, roles.get(0).getLevels().indexOf("."));
-//        }
-//        //获取用户所属公司
-//        map.put("company", baseMapper.getCompany(level));
         return map;
     }
 

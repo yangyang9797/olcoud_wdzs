@@ -5,10 +5,6 @@ server:
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    #    driver-class-name: org.postgresql.Driver
-    #    url: jdbc:postgresql://124.70.156.133:5432/qjwdzs
-    #    username: postgres
-    #    password: ovit@123!
     url: jdbc:postgresql://localhost:5432/qjwdzs
     username: postgres
     password: 123456
@@ -18,7 +14,6 @@ spring:
     port: 6379
     database: 1
     timeout: 50000
-#    password: ovit
 
   # 时间戳统一转换
   jackson:

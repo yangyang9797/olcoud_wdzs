@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -24,6 +25,13 @@ public class QjwdzsInstanceController extends BaseController<QjwdzsInstanceServi
     @WebMapping("/pageWithCatalog")
     public IPage<Map<String, Object>> pageWithCatalog(QjwdzsInstance t, AiPage page) {
         return service.pageWithCatalog(t, q -> q.page(page));
+    }
+
+    @ApiOperation(value = "获取所有项目")
+    @Log(action = "获取分页数据", tag = "/pageWithCatalog")
+    @WebMapping("/pub/getInstance")
+    public List getInstance () {
+        return service.getInstance();
     }
 
 

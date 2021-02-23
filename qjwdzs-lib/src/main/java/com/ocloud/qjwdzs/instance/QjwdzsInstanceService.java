@@ -1,11 +1,13 @@
 package com.ocloud.qjwdzs.instance;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ocloud.db.wrapper.Query;
 import com.ocloud.web.core.service.BaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -35,5 +37,8 @@ public class QjwdzsInstanceService extends BaseService<QjwdzsInstanceMapper, Qjw
     }
 
 
+    public List getInstance() {
+        return baseMapper.selectList(new QueryWrapper<QjwdzsInstance>().ne("isdel","1"));
+    }
 }
 
