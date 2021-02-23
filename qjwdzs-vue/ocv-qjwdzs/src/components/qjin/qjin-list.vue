@@ -120,16 +120,9 @@
         </Drawer>
 
         <el-dialog title="新增项目" v-show="!view.item_sel.qjinid" :visible.sync="showAddDialog" width="314px" class="add-project-dialog">
-            <add-project :qjin="view.item_sel" :visible="showAddDialog" @on-close="showAddDialog=false"></add-project>
+            <add-project :qjin="view.item_sel" :visible="showAddDialog" @on-close="showAddDialog=false" @on-save="onSaveProject"></add-project>
         </el-dialog>
 
-<!--        <Drawer :mask-closable="false" :title="'设计流程['+view.isshow+''+view.isshow_obligee+''+view.isshow_designer+']'" class-name="drawer-designer"-->
-<!--                scrollableb-->
-<!--                v-if="view.item_sel.qjinid" v-model="view.isshow_designer" width="90">-->
-<!--            <qjin-designer :qjin="view.item_sel" @on-ok="ok"-->
-<!--                           v-if="view.isshow_designer"-->
-<!--            ></qjin-designer>-->
-<!--        </Drawer>-->
         <Drawer :title="oblititle"
                 scrollable v-model="view.isshow_obligee" width="100%">
             <qjin-obligee :qjin="view.item_sel"
@@ -177,6 +170,10 @@
             this.loadData();
         },
         methods: {
+            onSaveProject(){
+
+                this.loadData()
+            },
             loadData(opt) {
                 if (opt.qclid){
                     this.opt = opt || {};

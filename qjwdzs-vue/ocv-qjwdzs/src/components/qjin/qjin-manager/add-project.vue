@@ -5,12 +5,6 @@
                 <el-input v-model="f_qjin[item.prop]" placeholder="请输入" @blur="check"></el-input>
             </el-form-item>
         </el-form>
-<!--        <div class="QRcode">-->
-<!--            <el-divider></el-divider>-->
-<!--            <div :style="{'color':showQRcode?'#b2b2b2':'#3788FF'}" @click="createQRcode">保存</div>-->
-<!--            <el-divider></el-divider>-->
-<!--        </div>-->
-<!--        <qrcode-vue v-show="showQRcode" :value="link"></qrcode-vue>-->
         <el-button type="primary" @click="save">保存</el-button>
     </section>
 </template>
@@ -42,14 +36,10 @@
                         { required: true, message: '项目名称必须填写', trigger: 'blur' }
                     ]
                 },
-                // showQRcode: false,// 展示二维码
-                // link: 'http://kjxx.cnovit.com/qjwdzs/mob/index.html#/login?id='+this.qjin.qjinid+'&&qjinname='+encodeURI(this.qjin.qjinname),
             }
         },
         methods: {
-            // createQRcode() {
-            //     this.showQRcode = true;
-            // },
+
             save() {
                 if (this.f_qjin.qjinname) {
                     this.f_qjin.cuserid = this.$store.state.auth.user.userid;
