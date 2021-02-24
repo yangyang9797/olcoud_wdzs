@@ -2,7 +2,7 @@
     <v-card class="qjin-info ocv-card-fill">
         <div class="header">
             <div>
-                <div class="title">权籍调查</div>
+                <div class="title">不动产调查系统</div>
                 <div class="opts">
                     <Button
                             @click="save()"

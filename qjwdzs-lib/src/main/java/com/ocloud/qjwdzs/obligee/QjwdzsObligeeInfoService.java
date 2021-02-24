@@ -131,15 +131,14 @@ public class QjwdzsObligeeInfoService extends BaseService<QjwdzsObligeeInfoMappe
         Assert.notEmpty(qlrid, "权利人ID为空");
         String dczt = "zldb";
         Map map = baseMapper.checkFile(qlrid);
-        //资料齐全标准：原型图没要求的一律按1张做标准
-        //户口本至少2张
+        //户口本至少1张
         //身份证至少2张
         //土地证至少1张
         //房产证至少1张
         //房屋远景至少3张
         //门牌号至少1张
         if (map != null && map.size() > 0) {
-            if (Integer.valueOf(map.get("hkb").toString()) >= 2 &&
+            if (Integer.valueOf(map.get("hkb").toString()) >= 1 &&
                     Integer.valueOf(map.get("sfz").toString()) >= 2 &&
                     Integer.valueOf(map.get("tdz").toString()) >= 1 &&
                     Integer.valueOf(map.get("fcz").toString()) >= 1 &&

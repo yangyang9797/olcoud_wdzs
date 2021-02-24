@@ -1,6 +1,7 @@
 package com.ocloud.qjwdzs.file;
 
 
+import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.ocloud.qjwdzs.instance.QjwdzsInstance;
 import com.ocloud.qjwdzs.instance.QjwdzsInstanceService;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +62,7 @@ public class FileInfosService  {
 
             }
         }
-
+        Assert.isTrue(false,"附件不存在");
         return null;
     }
     

@@ -1,6 +1,6 @@
 const config = {
     app: {
-        name: "权籍调查",
+        name: "不动产调查系统",
         desc: "qjwdzs management system",
         icon: "yunyingguanli",
         mainlayout: "portal",

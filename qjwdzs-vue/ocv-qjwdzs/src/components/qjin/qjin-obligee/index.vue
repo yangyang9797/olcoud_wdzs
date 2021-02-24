@@ -399,7 +399,7 @@ export default {
     },
     downloadFile() {
       window.location.href =
-        "http://kjxx.cnovit.com/qjwdzs/pub/file/download?qjinid=" +
+        "http://localhost:11002/qjwdzs/pub/file/download?qjinid=" +
         this.qjin.qjinid;
       //                ApiQjydcObligee.download({qjinid: this.qjin.qjinid}).then(res=>{
       //                    try {

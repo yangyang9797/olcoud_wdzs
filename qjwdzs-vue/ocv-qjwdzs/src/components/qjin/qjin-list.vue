@@ -6,7 +6,7 @@
                 <div>
                     <div class="title">
                         <icons type="gongdan"></icons>
-                        权籍调查
+                        不动产调查系统
                     </div>
 
                     <div class="opts ">
@@ -154,7 +154,7 @@
                     total: 0,
                     pages: 0
                 },
-                oblititle: "湖北省/武汉市/洪山区",
+                oblititle: "调查详情",
                 search_value: "",
                 view: {
                     isshow: false,
